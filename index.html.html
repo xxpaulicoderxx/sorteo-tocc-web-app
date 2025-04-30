@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Consulta de Defensoría por TOCC y Número de Causa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --celeste: #e0f7fa;
+      --celeste-oscuro: #00acc1;
+      --amarillo: #fff59d;
+      --blanco: #ffffff;
+      --gris: #f0f0f0;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: var(--gris);
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+    }
+
+    .contenedor {
+      background-color: var(--blanco);
+      border-radius: 12px;
+      padding: 2rem;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: var(--celeste-oscuro);
+      margin-bottom: 2rem;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    button {
+      background-color: var(--celeste-oscuro);
+      color: var(--blanco);
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 6px;
+      margin-top: 1.5rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #007c91;
+    }
+
+    #resultado {
+      margin-top: 2rem;
+      font-weight: bold;
+      background-color: var(--amarillo);
+      padding: 1rem;
+      border-radius: 8px;
+      color: #333;
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .contenedor {
+        padding: 1rem;
+      }
+
+      h2 {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="contenedor">
+    <h2>Consulta de Defensoría de TOCC<br><small>- Vigencia: 1 de agosto de 2024 al 31 de julio 2025 -</small></h2>
+
+    <label for="tocc">TOCC sorteado:</label>
+    <input type="number" id="tocc" />
+
+    <label for="causa">Número interno asignado:</label>
+    <input type="number" id="causa" />
+
+    <button onclick="consultarDefensoria()">Consultar</button>
+
+    <div id="resultado"></div>
+  </div>
+
+  <script>
+    const defensorias = {
+      2: { integro: 1 },
+      4: { integro: 2 },
+      3: { integro: 3 },
+      26: { integro: 4 },
+      13: { integro: 5 },
+      21: { integro: 6 },
+      12: { integro: 7 },
+      17: { integro: 8 },
+      24: { integro: 9 },
+      29: { integro: 10 },
+      11: { integro: 11 },
+      10: { integro: 12 },
+      14: { integro: 13 },
+      15: { integro: 14 },
+      8: { integro: 15 },
+      7: { integro: 17 },
+      20: { integro: 18 },
+      30: { integro: 20 },
+      27: { par: 1, impar: 2 },
+      16: { par: 11, impar: 3 },
+      9:  { par: 4, impar: 18 },
+      18: { par: 5, impar: 14 },
+      1:  { par: 20, impar: 6 },
+      25: { par: 13, impar: 7 },
+      22: { par: 8, impar: 9 },
+      28: { par: 17, impar: 10 },
+      5:  { par: 'ULM', impar: 12 },
+      19: { par: 15, impar: 'ULM' }
+    };
+
+    function consultarDefensoria() {
+      const tocc = parseInt(document.getElementById("tocc").value);
+      const causa = parseInt(document.getElementById("causa").value);
+      const resultadoDiv = document.getElementById("resultado");
+
+      if (isNaN(tocc) || isNaN(causa)) {
+        resultadoDiv.innerText = "Ingresá ambos valores correctamente.";
+        return;
+      }
+
+      const paridad = causa % 2 === 0 ? "par" : "impar";
+      const data = defensorias[tocc];
+
+      if (!data) {
+        resultadoDiv.innerText = "Ese TOCC no tiene defensoría asignada en el cuadro.";
+        return;
+      }
+
+      let defensoría = data.integro || data[paridad];
+
+      if (defensoría) {
+        resultadoDiv.innerText = `Corresponde la intervención de la Defensoría ante TOCC N° ${defensoría}`;
+      } else {
+        resultadoDiv.innerText = "No hay defensoría asignada para esa combinación.";
+      }
+    }
+  </script>
+
+</body>
+</html>
